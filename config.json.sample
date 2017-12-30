@@ -1,0 +1,9 @@
+{
+	"token":"",
+	"webhooks": {
+		"logs": {
+			"id": "",
+			"token": ""
+		}
+	}
+}

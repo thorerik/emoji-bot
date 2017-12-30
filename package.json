@@ -1,0 +1,19 @@
+{
+  "name": "discord-selfbot",
+  "version": "0.0.1",
+  "dependencies": {
+    "@types/node": "^8.5.2",
+    "discord.js": "github:hydrabolt/discord.js#master",
+    "fancy-log": "^1.3.2",
+    "js-yaml": "^3.10.0",
+    "moment": "^2.20.1",
+    "snekfetch": "^3.6.1",
+    "spotify-webhelper": "^0.0.11"
+  },
+  "scripts": {
+    "start": "node dist/bot.js",
+    "build": "tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "fix-lint": "tslint -c tslint.json 'src/**/*.ts' --fix"
+  }
+}
