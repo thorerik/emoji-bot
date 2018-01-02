@@ -54,7 +54,7 @@ class Serverinfo {
             .addField("Verification Level", verificationLevel[guild.verificationLevel], false)
             .addField("Explicit Content Filter", contentFilter[`${guild.explicitContentFilter}`], false);
         guild.splashURL() !== null ? serverEmbed.setImage(guild.splashURL()) : null; // tslint:disable-line
-        return message.edit({ embed: serverEmbed });
+        return message.reply({ embed: serverEmbed });
     }
 }
 exports.Serverinfo = Serverinfo;

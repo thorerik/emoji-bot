@@ -63,6 +63,6 @@ export class Serverinfo implements Command {
 
         guild.splashURL() !== null ? serverEmbed.setImage(guild.splashURL()) : null; // tslint:disable-line
 
-        return message.edit({embed: serverEmbed});
+        return message.reply({embed: serverEmbed});
     }
 }
