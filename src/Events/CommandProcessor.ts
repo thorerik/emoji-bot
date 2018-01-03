@@ -1,6 +1,5 @@
 import { Message } from "discord.js";
 
-import { Commands } from "../Lib/Commands";
 import { EventBase } from "../Lib/EventBase";
 
 export class CommandProcessor extends EventBase {
@@ -15,7 +14,7 @@ export class CommandProcessor extends EventBase {
         let command = args.shift().toLowerCase();
         command = command.split(this.props.config.config.prefix)[1];
 
-        const cmd = new Commands(command);
-        cmd.execute(message, args);
+        const cmd = this.props.getCommand(command);
+        cmd.run(message, args);
     }
 }

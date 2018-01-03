@@ -7,6 +7,7 @@ class Properties {
             throw new Error("Error: Instantiation failed: Use Properties.getInstance() instead of new.");
         }
         Properties.instance = this;
+        this.commands = new discord_js_1.Collection();
     }
     static getInstance() {
         return Properties.instance;
@@ -16,6 +17,12 @@ class Properties {
             this.logWH = new discord_js_1.WebhookClient(this.config.config.webhooks.logs.id, this.config.config.webhooks.logs.token);
         }
         return this.logWH;
+    }
+    setCommand(name, command) {
+        this.commands.set(name, command);
+    }
+    getCommand(name) {
+        return this.commands.get(name);
     }
 }
 Properties.instance = new Properties();
