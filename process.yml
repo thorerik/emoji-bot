@@ -1,5 +1,6 @@
 apps:
   - script : dist/bot.js
+    name: Emojibot
     watch  : true
     env    :
       NODE_ENV: production
