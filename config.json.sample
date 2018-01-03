@@ -1,9 +1,5 @@
 {
+	"prefix": "!",
 	"token":"",
-	"webhooks": {
-		"logs": {
-			"id": "",
-			"token": ""
-		}
-	}
+	"owners": ["107056552212447232"]
 }
