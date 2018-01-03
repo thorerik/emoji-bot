@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
 class Updatelist {
     constructor() {
         // tslint:disable-next-line:max-line-length
@@ -17,8 +18,17 @@ class Updatelist {
         await messages.forEach(async (m) => {
             await m.delete();
         });
-        const msg = await emojiListChannel.guild.emojis.map((e) => `${e} \`\`:${e.name}:\`\`\n`);
-        emojiListChannel.send(msg);
+        let msg = "";
+        await emojiListChannel.guild.emojis.forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
+        const messageChunks = discord_js_1.Util.splitMessage(msg);
+        if (typeof messageChunks === "object") {
+            messageChunks.forEach((chunk) => {
+                emojiListChannel.send(chunk);
+            });
+        }
+        else {
+            emojiListChannel.send(messageChunks);
+        }
     }
 }
 exports.Updatelist = Updatelist;

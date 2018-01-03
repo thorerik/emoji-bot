@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { Message, TextChannel, Util } from "discord.js";
 
 import * as log from "fancy-log";
 
@@ -22,8 +22,17 @@ export class Updatelist implements Command {
             await m.delete();
         });
 
-        const msg = await emojiListChannel.guild.emojis.map((e) => `${e} \`\`:${e.name}:\`\`\n`);
+        let msg = "";
+        await emojiListChannel.guild.emojis.forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
 
-        emojiListChannel.send(msg);
+        const messageChunks = Util.splitMessage(msg);
+
+        if (typeof messageChunks === "object") {
+            messageChunks.forEach((chunk) => {
+                emojiListChannel.send(chunk);
+            });
+        } else {
+            emojiListChannel.send(messageChunks);
+        }
     }
 }
