@@ -27,7 +27,6 @@ export class Properties {
             throw new Error("Error: Instantiation failed: Use Properties.getInstance() instead of new.");
         }
         Properties.instance = this;
-        this.commands = new Collection<string, Command>();
     }
 
     public getLogWebhookInstance(): WebhookClient {
@@ -46,12 +45,14 @@ export class Properties {
     }
 
     public registerCommands() {
+        this.commands = new Collection<string, Command>();
         readdir(join(".", "./dist/Commands/"), (error, files) => {
             if (error) {
                 return log.error(error);
             }
 
             files.forEach((file) => {
+                delete require.cache[require.resolve(`${resolve(".")}/dist/Commands/${file}`)];
                 const commandFile = require(`${resolve(".")}/dist/Commands/${file}`);
                 const commandName = file.split(".")[0];
 
@@ -62,5 +63,9 @@ export class Properties {
                 this.setCommand(commandName.toLowerCase(), commandClass);
             });
         });
+    }
+
+    private deleteCommand(name: string) {
+        this.commands.delete(name);
     }
 }

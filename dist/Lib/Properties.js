@@ -10,7 +10,6 @@ class Properties {
             throw new Error("Error: Instantiation failed: Use Properties.getInstance() instead of new.");
         }
         Properties.instance = this;
-        this.commands = new discord_js_1.Collection();
     }
     static getInstance() {
         return Properties.instance;
@@ -28,11 +27,13 @@ class Properties {
         return this.commands.get(name);
     }
     registerCommands() {
+        this.commands = new discord_js_1.Collection();
         fs_1.readdir(path_1.join(".", "./dist/Commands/"), (error, files) => {
             if (error) {
                 return log.error(error);
             }
             files.forEach((file) => {
+                delete require.cache[require.resolve(`${path_1.resolve(".")}/dist/Commands/${file}`)];
                 const commandFile = require(`${path_1.resolve(".")}/dist/Commands/${file}`);
                 const commandName = file.split(".")[0];
                 const commandClass = new commandFile[commandName]();
@@ -40,6 +41,9 @@ class Properties {
                 this.setCommand(commandName.toLowerCase(), commandClass);
             });
         });
+    }
+    deleteCommand(name) {
+        this.commands.delete(name);
     }
 }
 Properties.instance = new Properties();
