@@ -6,6 +6,10 @@ const contentFilter = ['Content filter disabled', 'Scan messages of members with
 const verificationLevel = ['None - unrestricted', 'Low - must have verified email on account', 'Medium - must be registered on Discord for longer than 5 minutes', 'High - 	(╯°□°）╯︵ ┻━┻ - must be a member of the server for longer than 10 minutes', 'Very High - ┻━┻ミヽ(ಠ益ಠ)ﾉ彡┻━┻ - must have a verified phone number']; // tslint:disable-line
 
 export class Serverinfo implements Command {
+    public help = "Get general server information for <guild>";
+    public examples = [
+        "serverinfo 396402755251732491",
+    ];
     public async run(message: Message, args: string[]) {
         if (message.channel.type !== "text" && args[0] === "current") {
             return message.reply("Missing argument");

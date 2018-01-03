@@ -2,6 +2,10 @@ import { Message } from "discord.js";
 import { Command } from "../Lib/Command";
 
 export class Ping implements Command {
+    public help = "Get a bot ping measurement";
+    public examples = [
+        "ping",
+    ];
     public async run(message: Message, args: string[]) {
         const me = await message.channel.send("Ping?") as Message;
         me.edit(`Pong! Latency is ${

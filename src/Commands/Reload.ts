@@ -6,6 +6,10 @@ import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
 export class Reload implements Command {
+    public help = "Reloads all commands in the bot";
+    public examples = [
+        "reload",
+    ];
     private props = Properties.getInstance();
 
     public async run(message: Message, args: string[]) {

@@ -26,6 +26,9 @@ class Properties {
     getCommand(name) {
         return this.commands.get(name);
     }
+    getCommands() {
+        return this.commands;
+    }
     registerCommands() {
         this.commands = new discord_js_1.Collection();
         fs_1.readdir(path_1.join(".", "./dist/Commands/"), (error, files) => {

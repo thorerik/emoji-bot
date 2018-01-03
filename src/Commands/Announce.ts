@@ -4,6 +4,13 @@ import { Command } from "../Lib/Command";
 import { randomFloat } from "../Lib/Maths";
 
 export class Announce implements Command {
+    // tslint:disable-next-line:max-line-length
+    public help = "Announces to <channel> and optionally tags [@group], making it mentionable first if necessary";
+    public examples = [
+        "announce #announcements A super announcement",
+        "announce #announcements subscriber A super announcement",
+    ];
+
     public async run(message: Message, args: string[]) {
         const channelId = args.shift().toLowerCase().replace(/<#(.+)>/g, "$1");
         const channel = message.guild.channels.get(channelId) as TextChannel;

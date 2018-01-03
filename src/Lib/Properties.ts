@@ -44,6 +44,10 @@ export class Properties {
         return this.commands.get(name);
     }
 
+    public getCommands(): Collection<string, Command> {
+        return this.commands;
+    }
+
     public registerCommands() {
         this.commands = new Collection<string, Command>();
         readdir(join(".", "./dist/Commands/"), (error, files) => {

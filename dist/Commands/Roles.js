@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Properties_1 = require("../Lib/Properties");
 class Roles {
     constructor() {
+        this.help = "Get all roles in <guild>";
+        this.examples = [
+            "roles 396402755251732491",
+        ];
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {

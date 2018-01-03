@@ -4,6 +4,14 @@ const discord_js_1 = require("discord.js");
 const Color_1 = require("../Lib/Color");
 const Maths_1 = require("../Lib/Maths");
 class Announce {
+    constructor() {
+        // tslint:disable-next-line:max-line-length
+        this.help = "Announces to <channel> and optionally tags [@group], making it mentionable first if necessary";
+        this.examples = [
+            "announce #announcements A super announcement",
+            "announce #announcements subscriber A super announcement",
+        ];
+    }
     async run(message, args) {
         const channelId = args.shift().toLowerCase().replace(/<#(.+)>/g, "$1");
         const channel = message.guild.channels.get(channelId);

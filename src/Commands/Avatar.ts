@@ -6,6 +6,12 @@ import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
 export class Avatar implements Command {
+    // tslint:disable-next-line:max-line-length
+    public help = "Sets avatar of the bot to <link>";
+    public examples = [
+        "avatar <link>",
+    ];
+
     public async run(message: Message, args: string[]) {
         const props = Properties.getInstance();
         try {

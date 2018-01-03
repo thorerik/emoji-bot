@@ -7,6 +7,17 @@ import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
 export class Emoji implements Command {
+    // tslint:disable-next-line:max-line-length
+    public help = "imports or deletes emojis";
+    public examples = [
+        "emoji add https://i.imgur.com/XrMnbMr.png bitcoin | add emoji with name bitcoin from url",
+        "emoji add 398095372217745409 bitcoin | if someone has reacted with the emoji on message",
+        "emoji delete bitcoin | delete emoji called bitcoin",
+        "emoji edit bitcoin name bitcoin2 | rename bitcoin to bitcoin2",
+        // tslint:disable-next-line:max-line-length
+        "emoji bulk https://raw.githubusercontent.com/lambtron/emojipacks/master/packs/slackmojis-logo.yaml | import slackmoji compatible yaml",
+    ];
+
     private message: Message;
     private guild: Guild;
 

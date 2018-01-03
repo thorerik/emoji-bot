@@ -4,6 +4,10 @@ const log = require("fancy-log");
 const Properties_1 = require("../Lib/Properties");
 class Reload {
     constructor() {
+        this.help = "Reloads all commands in the bot";
+        this.examples = [
+            "reload",
+        ];
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {
