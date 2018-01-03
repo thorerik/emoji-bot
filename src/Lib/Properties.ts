@@ -1,4 +1,9 @@
+import { readdir } from "fs";
+import { join, resolve } from "path";
+
 import { Client, Collection, WebhookClient } from "discord.js";
+
+import * as log from "fancy-log";
 
 import { Command } from "./Command";
 import { Config } from "./Config";
@@ -38,5 +43,24 @@ export class Properties {
 
     public getCommand(name: string): Command {
         return this.commands.get(name);
+    }
+
+    public registerCommands() {
+        readdir(join(".", "./dist/Commands/"), (error, files) => {
+            if (error) {
+                return log.error(error);
+            }
+
+            files.forEach((file) => {
+                const commandFile = require(`${resolve(".")}/dist/Commands/${file}`);
+                const commandName = file.split(".")[0];
+
+                const commandClass = new commandFile[commandName]();
+
+                log(`Registered command ${commandName}`);
+
+                this.setCommand(commandName.toLowerCase(), commandClass);
+            });
+        });
     }
 }

@@ -15,18 +15,7 @@ props.client = new discord_js_1.Client({
     sync: true,
 });
 // Register commands
-fs_1.readdir(path_1.join(".", "./dist/Commands/"), (error, files) => {
-    if (error) {
-        return log.error(error);
-    }
-    files.forEach((file) => {
-        const commandFile = require(`${path_1.resolve(".")}/dist/Commands/${file}`);
-        const commandName = file.split(".")[0];
-        const commandClass = new commandFile[commandName]();
-        log(`Registered command ${commandName}`);
-        props.setCommand(commandName.toLowerCase(), commandClass);
-    });
-});
+props.registerCommands();
 // Register events
 fs_1.readdir(path_1.join(".", "./dist/Events/"), (error, files) => {
     if (error) {

@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = require("fs");
+const path_1 = require("path");
 const discord_js_1 = require("discord.js");
+const log = require("fancy-log");
 class Properties {
     constructor() {
         if (Properties.instance) {
@@ -23,6 +26,20 @@ class Properties {
     }
     getCommand(name) {
         return this.commands.get(name);
+    }
+    registerCommands() {
+        fs_1.readdir(path_1.join(".", "./dist/Commands/"), (error, files) => {
+            if (error) {
+                return log.error(error);
+            }
+            files.forEach((file) => {
+                const commandFile = require(`${path_1.resolve(".")}/dist/Commands/${file}`);
+                const commandName = file.split(".")[0];
+                const commandClass = new commandFile[commandName]();
+                log(`Registered command ${commandName}`);
+                this.setCommand(commandName.toLowerCase(), commandClass);
+            });
+        });
     }
 }
 Properties.instance = new Properties();
