@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+
 export class Config {
 
     public config: {
@@ -12,6 +14,7 @@ export class Config {
         },
     };
     constructor(configFile: string) {
-        this.config = require(configFile);
+        const buffer = readFileSync(configFile);
+        this.config = JSON.parse(buffer.toString());
     }
 }

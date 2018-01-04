@@ -9,7 +9,7 @@ import { Config } from "./Lib/Config";
 import { Properties } from "./Lib/Properties";
 
 const props = Properties.getInstance();
-props.config = new Config("../../config");
+props.config = new Config("./config.json");
 props.client = new Client({
     disabledEvents: [
         "TYPING_START",

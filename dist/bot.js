@@ -7,7 +7,7 @@ const log = require("fancy-log");
 const Config_1 = require("./Lib/Config");
 const Properties_1 = require("./Lib/Properties");
 const props = Properties_1.Properties.getInstance();
-props.config = new Config_1.Config("../../config");
+props.config = new Config_1.Config("./config.json");
 props.client = new discord_js_1.Client({
     disabledEvents: [
         "TYPING_START",
