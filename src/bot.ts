@@ -23,7 +23,8 @@ props.registerCommands();
 // Register events
 readdir(join(".", "./dist/Events/"), (error, files) => {
     if (error) {
-        return log.error(error);
+        log.error(error);
+        throw error;
     }
 
     files.forEach((file) => {
@@ -43,4 +44,5 @@ readdir(join(".", "./dist/Events/"), (error, files) => {
 
 props.client.login(props.config.config.token).catch((err) => {
     log.error(err);
+    throw err;
 });

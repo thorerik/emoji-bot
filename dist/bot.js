@@ -19,7 +19,8 @@ props.registerCommands();
 // Register events
 fs_1.readdir(path_1.join(".", "./dist/Events/"), (error, files) => {
     if (error) {
-        return log.error(error);
+        log.error(error);
+        throw error;
     }
     files.forEach((file) => {
         const eventFile = require(`${path_1.resolve(".")}/dist/Events/${file}`);
@@ -31,4 +32,5 @@ fs_1.readdir(path_1.join(".", "./dist/Events/"), (error, files) => {
 });
 props.client.login(props.config.config.token).catch((err) => {
     log.error(err);
+    throw err;
 });

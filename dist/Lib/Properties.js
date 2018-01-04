@@ -33,7 +33,8 @@ class Properties {
         this.commands = new discord_js_1.Collection();
         fs_1.readdir(path_1.join(".", "./dist/Commands/"), (error, files) => {
             if (error) {
-                return log.error(error);
+                log.error(error);
+                throw error;
             }
             files.forEach((file) => {
                 delete require.cache[require.resolve(`${path_1.resolve(".")}/dist/Commands/${file}`)];

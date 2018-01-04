@@ -52,7 +52,8 @@ export class Properties {
         this.commands = new Collection<string, Command>();
         readdir(join(".", "./dist/Commands/"), (error, files) => {
             if (error) {
-                return log.error(error);
+                log.error(error);
+                throw error;
             }
 
             files.forEach((file) => {

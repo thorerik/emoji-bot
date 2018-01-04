@@ -20,6 +20,7 @@ export class Avatar implements Command {
         } catch (e) {
             await message.reply(`Failed to set avatar`);
             log.error(e);
+            throw e;
         }
     }
 }

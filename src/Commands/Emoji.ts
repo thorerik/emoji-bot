@@ -71,6 +71,7 @@ export class Emoji implements Command {
         } catch (e) {
             this.message.reply(`Failed to create emoji: ${e}`);
             log.error(e);
+            throw e;
         }
     }
 
@@ -116,12 +117,14 @@ export class Emoji implements Command {
                     }
                 } catch (e) {
                     log.error(e);
+                    throw e;
                 }
             });
 
             this.message.reply("Imported");
         } catch (e) {
             log.error(e);
+            throw e;
         }
     }
 }
