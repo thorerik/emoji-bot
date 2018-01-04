@@ -2,7 +2,7 @@ import * as log from "fancy-log";
 import * as yaml from "js-yaml";
 import * as snekfetch from "snekfetch";
 
-import { Guild, Message, PermissionOverwrites, GuildChannel, TextChannel } from "discord.js";
+import { Guild, GuildChannel, Message, PermissionOverwrites, TextChannel } from "discord.js";
 import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
