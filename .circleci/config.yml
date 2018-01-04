@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:9
+    steps:
+      - checkout
+      - run:
+          name: Install Typescript
+          command: npm i -g typescript
+      - run:
+          name: Install packages
+          command: npm
+      - run:
+          name: Lint
+          command: npm run lint
