@@ -1,5 +1,7 @@
 # Emoji bot
 
+[![CircleCI](https://circleci.com/gh/thorerik/emoji-bot/tree/master.svg?style=svg)](https://circleci.com/gh/thorerik/emoji-bot/tree/master)
+
 Emoji bot is a bot for discord written in discord.js to facilitate
 changelogs on emoji centric guilds.
 
