@@ -1,4 +1,4 @@
-import { Message, WebhookClient } from "discord.js";
+import { Message, Util, WebhookClient } from "discord.js";
 import * as moment from "moment";
 import { Properties } from "./Properties";
 
@@ -13,7 +13,7 @@ export class LogError {
         const webhookContent = {
             content: `:x: ** ERROR **`,
             embeds: [{
-                color: "RED",
+                color: Util.resolveColor("RED"),
                 fields: [
                     { name: "Exception", value: error.message, inline: false },
                     { name: "Stack", value: error.stack, inline: false},
