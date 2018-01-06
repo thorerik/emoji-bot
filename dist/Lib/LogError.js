@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
 const moment = require("moment");
 const Properties_1 = require("./Properties");
 class LogError {
@@ -13,7 +14,7 @@ class LogError {
         const webhookContent = {
             content: `:x: ** ERROR **`,
             embeds: [{
-                    color: "RED",
+                    color: discord_js_1.Util.resolveColor([255, 0, 0]),
                     fields: [
                         { name: "Exception", value: error.message, inline: false },
                         { name: "Stack", value: error.stack, inline: false },

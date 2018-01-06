@@ -13,7 +13,7 @@ export class LogError {
         const webhookContent = {
             content: `:x: ** ERROR **`,
             embeds: [{
-                color: Util.resolveColor("RED"),
+                color: Util.resolveColor([255, 0, 0]),
                 fields: [
                     { name: "Exception", value: error.message, inline: false },
                     { name: "Stack", value: error.stack, inline: false},
