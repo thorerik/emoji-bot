@@ -19,7 +19,17 @@ class Updatelist {
             await m.delete();
         });
         let msg = "";
-        await emojiListChannel.guild.emojis.forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
+        await emojiListChannel.guild.emojis.sort((a, b) => {
+            const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+            const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        }).forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
         const messageChunks = discord_js_1.Util.splitMessage(msg);
         if (typeof messageChunks === "object") {
             messageChunks.forEach((chunk) => {

@@ -23,7 +23,17 @@ export class Updatelist implements Command {
         });
 
         let msg = "";
-        await emojiListChannel.guild.emojis.forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
+        await emojiListChannel.guild.emojis.sort((a, b) => {
+            const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+            const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            return 0;
+        }).forEach((e) => msg += `${e} \`\`:${e.name}:\`\`\n`);
 
         const messageChunks = Util.splitMessage(msg);
 
