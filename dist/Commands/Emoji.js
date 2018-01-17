@@ -22,28 +22,26 @@ class Emoji {
         this.message = message;
         this.guild = this.message.guild;
         const subCommand = args.shift();
-        const arg1 = args.shift();
-        const arg2 = args.shift();
-        const arg3 = args.shift();
-        switch (subCommand) {
-            case "add":
-                this.add(arg1, arg2);
-                break;
-            case "delete":
-                this.delete(arg1);
-                break;
-            case "edit":
-                this.edit(arg1, arg2, arg3);
-                break;
-            case "bulk":
-                this.bulk(arg1);
-                break;
-            default:
-                // tslint:disable-next-line:max-line-length
-                await message.reply(`I don't understand what you mean, check \`${this.props.config.config.prefix}help emoji\` for help`);
+        if (subCommand === "add") {
+            await this.add(args);
+        }
+        else if (subCommand === "delete") {
+            await this.delete(args);
+        }
+        else if (subCommand === "edit") {
+            await this.edit(args);
+        }
+        else if (subCommand === "bulk") {
+            await this.bulk(args);
+        }
+        else {
+            // tslint:disable-next-line:max-line-length
+            await message.reply(`I don't understand what you mean, check \`${this.props.config.config.prefix}help emoji\` for help`);
         }
     }
-    async add(url, name) {
+    async add(args) {
+        let url = args.shift();
+        const name = args.shift();
         const maybeNumber = parseInt(url, 10);
         let emoji;
         try {
@@ -64,7 +62,8 @@ class Emoji {
             throw e;
         }
     }
-    async delete(name) {
+    async delete(args) {
+        const name = args.shift();
         const emoji = await this.guild.emojis.find("name", name);
         if (!emoji) {
             await this.message.edit(`Couldn't find ${name}`);
@@ -76,7 +75,10 @@ class Emoji {
             this.message.reply(`Failed to delete emoji ${name}: ${error}`);
         });
     }
-    async edit(name, param, newValue) {
+    async edit(args) {
+        const name = args.shift();
+        const param = args.shift();
+        const newValue = args.shift();
         const emoji = await this.guild.emojis.find("name", name);
         if (!emoji) {
             await this.message.reply(`Couldn't find ${name}`);
@@ -90,7 +92,8 @@ class Emoji {
             await this.message.reply(`Failed to edit emoji ${name}: ${e}`);
         }
     }
-    async bulk(url) {
+    async bulk(args) {
+        const url = args.shift();
         try {
             const data = await snekfetch.get(url);
             const parsed = yaml.safeLoad(data.body);
