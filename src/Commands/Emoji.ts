@@ -50,7 +50,7 @@ export class Emoji implements Command {
                 break;
             default:
                 // tslint:disable-next-line:max-line-length
-                await message.reply(`I don't understand what you mean, check \`${this.props.config.config.prefix} emoji\` for help`);
+                await message.reply(`I don't understand what you mean, check \`${this.props.config.config.prefix}help emoji\` for help`);
         }
     }
 
