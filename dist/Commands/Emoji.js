@@ -39,7 +39,8 @@ class Emoji {
                 this.bulk(arg1);
                 break;
             default:
-                await message.edit(`Wrong usage? emoji add <url> <name> | <messageid> <name> or emoji delete <name>`);
+                // tslint:disable-next-line:max-line-length
+                await message.reply(`I don't understand what you mean, check \`${this.props.config.config.prefix} emoji\` for help`);
         }
     }
     async add(url, name) {
@@ -55,7 +56,7 @@ class Emoji {
                 });
             }
             emoji = await this.guild.createEmoji(url, name);
-            this.message.edit(`Emoji created: ${emoji}`);
+            this.message.reply(`Emoji created: ${emoji}`);
         }
         catch (e) {
             this.message.reply(`Failed to create emoji: ${e}`);
@@ -70,15 +71,15 @@ class Emoji {
             return;
         }
         emoji.delete().then((em) => {
-            this.message.edit(`Successfully deleted ${name}`);
+            this.message.reply(`Successfully deleted ${name}`);
         }).catch((error) => {
-            this.message.edit(`Failed to delete emoji ${name}: ${error}`);
+            this.message.reply(`Failed to delete emoji ${name}: ${error}`);
         });
     }
     async edit(name, param, newValue) {
         const emoji = await this.guild.emojis.find("name", name);
         if (!emoji) {
-            await this.message.edit(`Couldn't find ${name}`);
+            await this.message.reply(`Couldn't find ${name}`);
             return;
         }
         try {
