@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Permissions } from "discord.js";
 
 import * as log from "fancy-log";
 
@@ -11,6 +11,7 @@ export class Help implements Command {
         "help",
         "help ping",
     ];
+    public permissionRequired = Permissions.FLAGS.SEND_MESSAGES;
     private props = Properties.getInstance();
 
     public async run(message: Message, args: string[]) {

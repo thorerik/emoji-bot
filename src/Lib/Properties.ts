@@ -2,11 +2,14 @@ import { readdir } from "fs";
 import { join, resolve } from "path";
 
 import { Client, Collection, WebhookClient } from "discord.js";
+import { ISequelizeUriConfig, Sequelize } from "sequelize-typescript";
 
 import * as log from "fancy-log";
 
 import { Command } from "./Command";
 import { Config } from "./Config";
+
+import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 
 export class Properties {
 
@@ -17,6 +20,8 @@ export class Properties {
     private static instance: Properties = new Properties();
 
     public client: Client;
+
+    public db: Sequelize;
 
     public config: Config;
     private logWH: WebhookClient;
@@ -67,6 +72,29 @@ export class Properties {
 
                 this.setCommand(commandName.toLowerCase(), commandClass);
             });
+        });
+    }
+
+    public async setupDatabase() {
+        this.db = new Sequelize({
+            modelPaths: [join(resolve("."), "dist/Database/Models")],
+            url: this.config.config.database.connectionString,
+        } as ISequelizeUriConfig);
+
+        await this.db.sync();
+    }
+
+    public async verifyDatabase() {
+        this.client.guilds.forEach(async (guild) => {
+            let guildConfiguration = await GuildConfiguration.findOne({where: {guildID: guild.id.toString()}});
+            if (!guildConfiguration) {
+                console.log(`Didn't find ${guild.name} in database, adding…`);
+                guildConfiguration = new GuildConfiguration({
+                    guildID: guild.id.toString(),
+                    settings: JSON.stringify({prefix: "em!"}),
+                });
+                await guildConfiguration.save();
+            }
         });
     }
 

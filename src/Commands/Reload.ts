@@ -10,6 +10,7 @@ export class Reload implements Command {
     public examples = [
         "reload",
     ];
+    public permissionRequired = "BOT_OWNER";
     private props = Properties.getInstance();
 
     public async run(message: Message, args: string[]) {

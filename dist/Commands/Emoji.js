@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log = require("fancy-log");
 const yaml = require("js-yaml");
 const snekfetch = require("snekfetch");
+const discord_js_1 = require("discord.js");
 const Properties_1 = require("../Lib/Properties");
 class Emoji {
     constructor() {
@@ -16,6 +17,7 @@ class Emoji {
             // tslint:disable-next-line:max-line-length
             "emoji bulk https://raw.githubusercontent.com/lambtron/emojipacks/master/packs/slackmojis-logo.yaml | import slackmoji compatible yaml",
         ];
+        this.permissionRequired = discord_js_1.Permissions.FLAGS.MANAGE_EMOJIS;
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {

@@ -3,6 +3,9 @@ import { readFileSync } from "fs";
 export class Config {
 
     public config: {
+        database: {
+            connectionString: string,
+        },
         prefix: string,
         token: string,
         owners: string[],

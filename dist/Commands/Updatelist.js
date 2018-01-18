@@ -8,6 +8,7 @@ class Updatelist {
         this.examples = [
             "updatelist",
         ];
+        this.permissionRequired = discord_js_1.Permissions.FLAGS.MANAGE_EMOJIS;
     }
     async run(message, args) {
         const emojiListChannel = await message.guild.channels.find("name", "emoji-list");

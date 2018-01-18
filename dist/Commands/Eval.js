@@ -9,6 +9,7 @@ class Eval {
         this.examples = [
             "eval message.reply('hi')",
         ];
+        this.permissionRequired = "BOT_OWNER";
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {

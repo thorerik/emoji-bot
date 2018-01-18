@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
 const Properties_1 = require("../Lib/Properties");
 class Help {
     constructor() {
@@ -8,6 +9,7 @@ class Help {
             "help",
             "help ping",
         ];
+        this.permissionRequired = discord_js_1.Permissions.FLAGS.SEND_MESSAGES;
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {

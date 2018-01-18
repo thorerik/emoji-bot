@@ -9,6 +9,7 @@ class Avatar {
         this.examples = [
             "avatar <link>",
         ];
+        this.permissionRequired = "BOT_OWNER";
     }
     async run(message, args) {
         const props = Properties_1.Properties.getInstance();

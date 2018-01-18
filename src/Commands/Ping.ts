@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Permissions } from "discord.js";
 import { Command } from "../Lib/Command";
 
 export class Ping implements Command {
@@ -6,6 +6,7 @@ export class Ping implements Command {
     public examples = [
         "ping",
     ];
+    public permissionRequired = Permissions.FLAGS.SEND_MESSAGES;
     public async run(message: Message, args: string[]) {
         const me = await message.channel.send("Ping?") as Message;
         me.edit(`Pong! Latency is ${

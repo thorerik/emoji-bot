@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Permissions } from "discord.js";
 
 import * as log from "fancy-log";
 
@@ -11,6 +11,7 @@ export class Avatar implements Command {
     public examples = [
         "avatar <link>",
     ];
+    public permissionRequired = "BOT_OWNER";
 
     public async run(message: Message, args: string[]) {
         const props = Properties.getInstance();

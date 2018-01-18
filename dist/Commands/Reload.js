@@ -8,6 +8,7 @@ class Reload {
         this.examples = [
             "reload",
         ];
+        this.permissionRequired = "BOT_OWNER";
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {

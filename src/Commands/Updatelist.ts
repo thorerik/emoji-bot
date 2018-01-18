@@ -1,4 +1,4 @@
-import { Message, TextChannel, Util } from "discord.js";
+import { Message, Permissions, TextChannel, Util } from "discord.js";
 
 import * as log from "fancy-log";
 
@@ -11,6 +11,7 @@ export class Updatelist implements Command {
     public examples = [
         "updatelist",
     ];
+    public permissionRequired = Permissions.FLAGS.MANAGE_EMOJIS;
 
     public async run(message: Message, args: string[]) {
         const emojiListChannel = await message.guild.channels.find("name", "emoji-list") as TextChannel;

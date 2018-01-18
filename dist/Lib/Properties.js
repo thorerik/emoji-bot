@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
 const discord_js_1 = require("discord.js");
+const sequelize_typescript_1 = require("sequelize-typescript");
 const log = require("fancy-log");
+const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 class Properties {
     constructor() {
         if (Properties.instance) {
@@ -44,6 +46,26 @@ class Properties {
                 log(`Registered command ${commandName}`);
                 this.setCommand(commandName.toLowerCase(), commandClass);
             });
+        });
+    }
+    async setupDatabase() {
+        this.db = new sequelize_typescript_1.Sequelize({
+            modelPaths: [path_1.join(path_1.resolve("."), "dist/Database/Models")],
+            url: this.config.config.database.connectionString,
+        });
+        await this.db.sync();
+    }
+    async verifyDatabase() {
+        this.client.guilds.forEach(async (guild) => {
+            let guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: guild.id.toString() } });
+            if (!guildConfiguration) {
+                console.log(`Didn't find ${guild.name} in database, adding…`);
+                guildConfiguration = new GuildConfiguration_1.GuildConfiguration({
+                    guildID: guild.id.toString(),
+                    settings: JSON.stringify({ prefix: "em!" }),
+                });
+                await guildConfiguration.save();
+            }
         });
     }
     deleteCommand(name) {

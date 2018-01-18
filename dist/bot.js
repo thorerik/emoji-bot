@@ -16,6 +16,8 @@ props.client = new discord_js_1.Client({
 });
 // Register commands
 props.registerCommands();
+// Setup Database
+props.setupDatabase();
 // Register events
 fs_1.readdir(path_1.join(".", "./dist/Events/"), (error, files) => {
     if (error) {

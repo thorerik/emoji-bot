@@ -11,6 +11,7 @@ export class Eval implements Command {
     public examples = [
         "eval message.reply('hi')",
     ];
+    public permissionRequired = "BOT_OWNER";
 
     private props = Properties.getInstance();
 

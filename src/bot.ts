@@ -20,6 +20,9 @@ props.client = new Client({
 // Register commands
 props.registerCommands();
 
+// Setup Database
+props.setupDatabase();
+
 // Register events
 readdir(join(".", "./dist/Events/"), (error, files) => {
     if (error) {
