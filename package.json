@@ -7,7 +7,6 @@
     "fancy-log": "^1.3.2",
     "js-yaml": "^3.10.0",
     "moment": "^2.20.1",
-    "pg": "^6.4.2",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.31.2",
     "sequelize-typescript": "^0.6.2",
