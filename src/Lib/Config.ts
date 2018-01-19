@@ -17,6 +17,7 @@ export class Config {
                 idle: 10000,
             },
         },
+        dblToken: string,
         prefix: string,
         token: string,
         owners: string[],
