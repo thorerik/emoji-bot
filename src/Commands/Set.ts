@@ -17,11 +17,13 @@ export class Set implements Command {
     public async run(message: Message, args: string[]) {
         const guildConfiguration = await GuildConfiguration.findOne({where: {guildID: message.guild.id.toString()}});
         const settings = JSON.parse(guildConfiguration.settings);
-        settings[args.shift()] = args.shift();
+        const setting = args.shift();
+        const newSetting = args.shift();
+        settings[setting] = newSetting;
 
         guildConfiguration.settings = JSON.stringify(settings);
         await guildConfiguration.save();
 
-        await message.reply(`Prefix changed to ${settings.prefix}`);
+        await message.reply(`${setting} changed to ${newSetting}`);
     }
 }

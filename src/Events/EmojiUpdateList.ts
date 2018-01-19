@@ -2,6 +2,7 @@ import * as log from "fancy-log";
 
 import { Emoji, TextChannel } from "discord.js";
 
+import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { EventBase } from "../Lib/EventBase";
 
 export class EmojiUpdateList extends EventBase {
@@ -10,7 +11,9 @@ export class EmojiUpdateList extends EventBase {
         super();
     }
     public async run(oldEmoji: Emoji, newEmoji: Emoji) {
-        const emojiChangelog = await newEmoji.guild.channels.find("name", "emoji-changelog") as TextChannel;
+        const guildConfiguration = await GuildConfiguration.findOne({where: {guildID: newEmoji.guild.id.toString()}});
+        const guildConfig = JSON.parse(guildConfiguration.settings);
+        const emojiChangelog = await newEmoji.guild.channels.find("name", guildConfig.changelog) as TextChannel;
         if (!emojiChangelog) { return; }
         if (oldEmoji.name === newEmoji.name) { return; }
 

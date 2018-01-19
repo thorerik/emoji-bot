@@ -104,7 +104,11 @@ export class Properties {
                 console.log(`Didn't find ${guild.name} in database, adding…`);
                 guildConfiguration = new GuildConfiguration({
                     guildID: guild.id.toString(),
-                    settings: JSON.stringify({prefix: "em!"}),
+                    settings: JSON.stringify({
+                        changelog: "emoji-changelog",
+                        list: "emoji-list",
+                        prefix: "em!",
+                    }),
                 });
                 await guildConfiguration.save();
             }

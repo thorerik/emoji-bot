@@ -2,19 +2,22 @@ import { Message, Permissions, TextChannel, Util } from "discord.js";
 
 import * as log from "fancy-log";
 
+import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
 export class Updatelist implements Command {
     // tslint:disable-next-line:max-line-length
-    public help = "Updates emoji list in #emoji-list";
+    public help = "Updates emoji list in guild's list channel";
     public examples = [
         "updatelist",
     ];
     public permissionRequired = Permissions.FLAGS.MANAGE_EMOJIS;
 
     public async run(message: Message, args: string[]) {
-        const emojiListChannel = await message.guild.channels.find("name", "emoji-list") as TextChannel;
+        const guildConfiguration = await GuildConfiguration.findOne({where: {guildID: message.guild.id.toString()}});
+        const guildConfig = JSON.parse(guildConfiguration.settings);
+        const emojiListChannel = await message.guild.channels.find("name", guildConfig.list) as TextChannel;
         if (!emojiListChannel) { return; }
 
         const messages = await emojiListChannel.messages.fetch();

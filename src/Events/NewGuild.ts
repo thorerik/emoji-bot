@@ -19,7 +19,11 @@ export class NewGuild extends EventBase {
         log(`New guild: ${guild.name}, owned by ${guild.owner.user.username}#${guild.owner.user.discriminator} with ${guild.memberCount} members`);
         const guildConfiguration = new GuildConfiguration({
             guildID: guild.id.toString(),
-            settings: JSON.stringify({prefix: "em!"}),
+            settings: JSON.stringify({
+                changelog: "emoji-changelog",
+                list: "emoji-list",
+                prefix: "em!",
+            }),
         });
         await guildConfiguration.save();
     }

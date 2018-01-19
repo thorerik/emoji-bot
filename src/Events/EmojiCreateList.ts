@@ -2,6 +2,7 @@ import * as log from "fancy-log";
 
 import { Emoji, TextChannel } from "discord.js";
 
+import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { EventBase } from "../Lib/EventBase";
 
 export class EmojiCreateList extends EventBase {
@@ -10,7 +11,9 @@ export class EmojiCreateList extends EventBase {
         super();
     }
     public async run(emoji: Emoji) {
-        const emojiChangelog = await emoji.guild.channels.find("name", "emoji-changelog") as TextChannel;
+        const guildConfiguration = await GuildConfiguration.findOne({where: {guildID: emoji.guild.id.toString()}});
+        const guildConfig = JSON.parse(guildConfiguration.settings);
+        const emojiChangelog = await emoji.guild.channels.find("name", guildConfig.changelog) as TextChannel;
         if (!emojiChangelog) { return; }
 
         emojiChangelog.send(`✅ Created ${emoji} \`:${emoji.name}:\``);

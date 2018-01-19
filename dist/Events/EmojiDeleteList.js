@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 const EventBase_1 = require("../Lib/EventBase");
 class EmojiDeleteList extends EventBase_1.EventBase {
     constructor() {
@@ -7,7 +8,9 @@ class EmojiDeleteList extends EventBase_1.EventBase {
         this.subscribe = "emojiDelete";
     }
     async run(emoji) {
-        const emojiChangelog = await emoji.guild.channels.find("name", "emoji-changelog");
+        const guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: emoji.guild.id.toString() } });
+        const guildConfig = JSON.parse(guildConfiguration.settings);
+        const emojiChangelog = await emoji.guild.channels.find("name", guildConfig.changelog);
         if (!emojiChangelog) {
             return;
         }
