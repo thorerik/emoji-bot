@@ -5,6 +5,9 @@
 Emoji bot is a bot for discord written in discord.js to facilitate
 changelogs on emoji centric guilds.
 
+You can now also invite it to your own guild: [Invite](https://discordapp.com/api/oauth2/authorize?client_id=396664345209208842&permissions=1073741824&scope=bot) 
+Support is provided [here](https://discord.gg/yk8z9bz) for the time being.
+
 ## Installation
 
 Clone and run `npm i` to install all the required packages,
