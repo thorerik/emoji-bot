@@ -8,6 +8,8 @@ class Set {
         this.help = "Sets bot settings for the guild";
         this.examples = [
             "set prefix !",
+            "set changelog emoji-changelog",
+            "set list emoji-list",
         ];
         this.permissionRequired = discord_js_1.Permissions.FLAGS.ADMINISTRATOR;
     }

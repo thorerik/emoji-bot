@@ -11,6 +11,8 @@ export class Set implements Command {
     public help = "Sets bot settings for the guild";
     public examples = [
         "set prefix !",
+        "set changelog emoji-changelog",
+        "set list emoji-list",
     ];
     public permissionRequired = Permissions.FLAGS.ADMINISTRATOR;
 
