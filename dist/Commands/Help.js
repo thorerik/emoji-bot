@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 const Properties_1 = require("../Lib/Properties");
 class Help {
     constructor() {
@@ -13,8 +14,10 @@ class Help {
         this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {
+        const guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: message.guild.id.toString() } });
+        const guildConfig = JSON.parse(guildConfiguration.settings);
         const commands = this.props.getCommands();
-        const prefix = this.props.config.config.prefix;
+        const prefix = guildConfig.prefix;
         let reply = "```";
         const arg = args.shift();
         if (arg) {
@@ -29,7 +32,14 @@ class Help {
         else {
             reply += "Help\n\n";
             reply += "Commands available: \n\n";
-            commands.forEach((command) => {
+            commands.filter((command) => {
+                return (typeof command.permissionRequired !== "string" &&
+                    message.member.hasPermission(command.permissionRequired)) ||
+                    // User is owner
+                    (typeof command.permissionRequired === "string" &&
+                        command.permissionRequired === "BOT_OWNER" &&
+                        this.props.config.config.owners.includes(message.member.id));
+            }).forEach((command) => {
                 reply += `${prefix}${command.constructor.name.toLowerCase()}`;
                 reply += "\n";
             });

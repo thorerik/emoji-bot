@@ -2,6 +2,7 @@ import { Message, Permissions } from "discord.js";
 
 import * as log from "fancy-log";
 
+import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { Command } from "../Lib/Command";
 import { Properties } from "../Lib/Properties";
 
@@ -15,8 +16,10 @@ export class Help implements Command {
     private props = Properties.getInstance();
 
     public async run(message: Message, args: string[]) {
+        const guildConfiguration = await GuildConfiguration.findOne({where: {guildID: message.guild.id.toString()}});
+        const guildConfig = JSON.parse(guildConfiguration.settings);
         const commands = this.props.getCommands();
-        const prefix = this.props.config.config.prefix;
+        const prefix = guildConfig.prefix;
 
         let reply = "```";
 
@@ -33,7 +36,18 @@ export class Help implements Command {
         } else {
             reply += "Help\n\n";
             reply += "Commands available: \n\n";
-            commands.forEach((command) => {
+            commands.filter((command) => {
+                return (
+                    // User has permission
+                    typeof command.permissionRequired !== "string" &&
+                    message.member.hasPermission(command.permissionRequired)) ||
+                    // User is owner
+                    (
+                        typeof command.permissionRequired === "string" &&
+                        command.permissionRequired === "BOT_OWNER" &&
+                        this.props.config.config.owners.includes(message.member.id)
+                    );
+            }).forEach((command) => {
                 reply += `${prefix}${command.constructor.name.toLowerCase()}`;
                 reply += "\n";
             });
