@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import * as log from "fancy-log";
 
 import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { EventBase } from "../Lib/EventBase";
@@ -16,21 +17,24 @@ export class CommandProcessor extends EventBase {
         const args = message.content.split(/\s+/g);
         let command = args.shift().toLowerCase();
         command = command.split(guildConfig.prefix)[1];
-
-        const cmd = this.props.getCommand(command);
-        if (
-            // User has permission
-            (typeof cmd.permissionRequired !== "string" && message.member.hasPermission(cmd.permissionRequired)) ||
-            // User is owner
-            (
-                typeof cmd.permissionRequired === "string" &&
-                cmd.permissionRequired === "BOT_OWNER" &&
-                this.props.config.config.owners.includes(message.member.id)
-            )
-        ) {
-            cmd.run(message, args);
-        } else {
-            message.reply(`Sorry, you do not have permission for this command`);
+        try {
+            const cmd = this.props.getCommand(command);
+            if (
+                // User has permission
+                (typeof cmd.permissionRequired !== "string" && message.member.hasPermission(cmd.permissionRequired)) ||
+                // User is owner
+                (
+                    typeof cmd.permissionRequired === "string" &&
+                    cmd.permissionRequired === "BOT_OWNER" &&
+                    this.props.config.config.owners.includes(message.member.id)
+                )
+            ) {
+                cmd.run(message, args);
+            } else {
+                message.reply(`Sorry, you do not have permission for this command`);
+            }
+        } catch (e) {
+            log.error(e);
         }
     }
 }

@@ -2,7 +2,7 @@ import { readdir } from "fs";
 import { join, resolve } from "path";
 
 import { Client, Collection, WebhookClient } from "discord.js";
-import { ISequelizeUriConfig, Sequelize } from "sequelize-typescript";
+import { ISequelizeConfig, Sequelize } from "sequelize-typescript";
 
 import * as log from "fancy-log";
 
@@ -77,9 +77,22 @@ export class Properties {
 
     public async setupDatabase() {
         this.db = new Sequelize({
+            database: this.config.config.database.database,
+            dialect: this.config.config.database.dialect,
+            host: this.config.config.database.host,
+            logging: false,
             modelPaths: [join(resolve("."), "dist/Database/Models")],
-            url: this.config.config.database.connectionString,
-        } as ISequelizeUriConfig);
+            operatorsAliases: false,
+            password: this.config.config.database.password,
+            pool: {
+                acquire: 30000,
+                idle: 10000,
+                max: 10,
+                min: 0,
+            },
+            port: this.config.config.database.port,
+            username: this.config.config.database.username,
+        });
 
         await this.db.sync();
     }

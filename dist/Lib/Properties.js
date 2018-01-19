@@ -50,8 +50,21 @@ class Properties {
     }
     async setupDatabase() {
         this.db = new sequelize_typescript_1.Sequelize({
+            database: this.config.config.database.database,
+            dialect: this.config.config.database.dialect,
+            host: this.config.config.database.host,
+            logging: false,
             modelPaths: [path_1.join(path_1.resolve("."), "dist/Database/Models")],
-            url: this.config.config.database.connectionString,
+            operatorsAliases: false,
+            password: this.config.config.database.password,
+            pool: {
+                acquire: 30000,
+                idle: 10000,
+                max: 10,
+                min: 0,
+            },
+            port: this.config.config.database.port,
+            username: this.config.config.database.username,
         });
         await this.db.sync();
     }

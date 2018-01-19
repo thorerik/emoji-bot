@@ -33,7 +33,9 @@ class Help {
             reply += "Help\n\n";
             reply += "Commands available: \n\n";
             commands.filter((command) => {
-                return (typeof command.permissionRequired !== "string" &&
+                return (
+                // User has permission
+                typeof command.permissionRequired !== "string" &&
                     message.member.hasPermission(command.permissionRequired)) ||
                     // User is owner
                     (typeof command.permissionRequired === "string" &&

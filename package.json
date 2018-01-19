@@ -10,7 +10,8 @@
     "pg": "^6.4.2",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.31.2",
-    "sequelize-typescript": "^0.6.2"
+    "sequelize-typescript": "^0.6.2",
+    "tedious": "^2.1.5"
   },
   "scripts": {
     "start": "node dist/bot.js",

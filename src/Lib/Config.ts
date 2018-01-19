@@ -4,7 +4,18 @@ export class Config {
 
     public config: {
         database: {
-            connectionString: string,
+            host: string,
+            database: string,
+            username: string,
+            password: string,
+            port: number,
+            dialect: string,
+            pool: {
+                max: 5,
+                min: 0,
+                acquire: 30000,
+                idle: 10000,
+            },
         },
         prefix: string,
         token: string,
