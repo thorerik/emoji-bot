@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const log = require("fancy-log");
 const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 const EventBase_1 = require("../Lib/EventBase");
 class CommandProcessor extends EventBase_1.EventBase {
@@ -32,7 +31,7 @@ class CommandProcessor extends EventBase_1.EventBase {
             }
         }
         catch (e) {
-            log.error(e);
+            // We don't really care for errors here
         }
     }
 }

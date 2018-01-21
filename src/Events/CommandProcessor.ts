@@ -34,7 +34,7 @@ export class CommandProcessor extends EventBase {
                 message.reply(`Sorry, you do not have permission for this command`);
             }
         } catch (e) {
-            log.error(e);
+            // We don't really care for errors here
         }
     }
 }

@@ -22,6 +22,10 @@ class Help {
         const arg = args.shift();
         if (arg) {
             const command = commands.get(arg);
+            if (!command) {
+                message.reply(`Unkown command, see \`${prefix}help\` for list of commands`);
+                return;
+            }
             reply += `Help for ${arg}\n\n`;
             reply += command.help + "\n\n";
             command.examples.forEach((example) => {
