@@ -27,6 +27,14 @@ __decorate([
     sequelize_typescript_1.Column,
     __metadata("design:type", String)
 ], GuildConfiguration.prototype, "settings", void 0);
+__decorate([
+    sequelize_typescript_1.CreatedAt,
+    __metadata("design:type", Object)
+], GuildConfiguration.prototype, "createdAt", void 0);
+__decorate([
+    sequelize_typescript_1.UpdatedAt,
+    __metadata("design:type", Object)
+], GuildConfiguration.prototype, "updatedAt", void 0);
 GuildConfiguration = __decorate([
     sequelize_typescript_1.Table
 ], GuildConfiguration);

@@ -9,6 +9,7 @@
     "moment": "^2.20.1",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.31.2",
+    "sequelize-cli": "^3.2.0",
     "sequelize-typescript": "^0.6.2",
     "tedious": "^2.1.5"
   },

@@ -1,11 +1,13 @@
 import {
     AutoIncrement,
     Column,
+    CreatedAt,
     HasMany,
     Model,
     PrimaryKey,
     Table,
     Unique,
+    UpdatedAt,
 } from "sequelize-typescript";
 
 @Table
@@ -22,5 +24,11 @@ export class GuildConfiguration extends Model<GuildConfiguration> {
 
     @Column
     public settings: string;
+
+    @CreatedAt
+    public createdAt;
+
+    @UpdatedAt
+    public updatedAt;
 
 }
