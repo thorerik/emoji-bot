@@ -12,7 +12,7 @@ class CommandProcessor extends EventBase_1.EventBase {
             return;
         }
         const guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: message.guild.id.toString() } });
-        if (guildConfiguration.settings === null) {
+        if (guildConfiguration === null) {
             throw new Error(`Settings is null for ${message.guild.id}`);
         }
         const guildConfig = JSON.parse(guildConfiguration.settings);
