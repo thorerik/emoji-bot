@@ -59,7 +59,7 @@ export class Check implements Command {
 
         embed.color = Util.resolveColor([0, 255, 255]);
 
-        embed.thumbnail = {url: guild.icon };
+        embed.thumbnail = {url: guild.iconURL() };
 
         embed.title = "About Emoji bot";
 

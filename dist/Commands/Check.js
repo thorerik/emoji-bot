@@ -56,7 +56,7 @@ class Check {
         const guildConfig = JSON.parse(guildConfiguration.settings);
         const embed = new discord_js_1.MessageEmbed();
         embed.color = discord_js_1.Util.resolveColor([0, 255, 255]);
-        embed.thumbnail = { url: guild.icon };
+        embed.thumbnail = { url: guild.iconURL() };
         embed.title = "About Emoji bot";
         embed.author = {
             iconURL: "https://i.imgur.com/ibsHxIR.png",
