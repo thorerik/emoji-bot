@@ -14,19 +14,19 @@ class Check {
             "check guild <id>",
         ];
         this.permissionRequired = "BOT_OWNER";
+        this.props = Properties_1.Properties.getInstance();
     }
     async run(message, args) {
-        const props = Properties_1.Properties.getInstance();
         const subCommand = args.shift();
         if (subCommand === "sanity") {
-            await this.sanityCheck(props);
+            await this.sanityCheck();
         }
         else if (subCommand === "guild") {
-            await this.guildCheck(props, message, args);
+            await this.guildCheck(message, args);
         }
     }
-    async sanityCheck(props) {
-        await props.client.guilds.array().forEach(async (guild) => {
+    async sanityCheck() {
+        await this.props.client.guilds.array().forEach(async (guild) => {
             let msg = "";
             const guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: guild.id.toString() } });
             if (guildConfiguration) {
@@ -40,12 +40,12 @@ class Check {
             log(msg);
         });
     }
-    async guildCheck(props, message, args) {
+    async guildCheck(message, args) {
         const gid = args.shift();
         let guild;
         let guildConfiguration;
         try {
-            guild = await props.client.guilds.get(gid);
+            guild = await this.props.client.guilds.get(gid);
             guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: gid } });
         }
         catch (e) {

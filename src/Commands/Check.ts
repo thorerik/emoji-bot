@@ -16,18 +16,19 @@ export class Check implements Command {
     ];
     public permissionRequired = "BOT_OWNER";
 
+    private props = Properties.getInstance();
+
     public async run(message: Message, args: string[]) {
-        const props = Properties.getInstance();
         const subCommand = args.shift();
         if (subCommand === "sanity") {
-            await this.sanityCheck(props);
+            await this.sanityCheck();
         } else if (subCommand === "guild") {
-            await this.guildCheck(props, message, args);
+            await this.guildCheck(message, args);
         }
     }
 
-    private async sanityCheck(props: Properties) {
-        await props.client.guilds.array().forEach(async (guild) => {
+    private async sanityCheck() {
+        await this.props.client.guilds.array().forEach(async (guild) => {
             let msg = "";
             const guildConfiguration = await GuildConfiguration.findOne({ where: { guildID: guild.id.toString() } });
             if (guildConfiguration) {
@@ -41,12 +42,12 @@ export class Check implements Command {
         });
     }
 
-    private async guildCheck(props: Properties, message: Message, args: string[]) {
+    private async guildCheck(message: Message, args: string[]) {
         const gid = args.shift();
         let guild: Guild;
         let guildConfiguration: GuildConfiguration;
         try {
-                guild = await props.client.guilds.get(gid);
+                guild = await this.props.client.guilds.get(gid);
                 guildConfiguration = await GuildConfiguration.findOne({where: {guildID: gid}});
             } catch (e) {
                 const err = new LogError();
