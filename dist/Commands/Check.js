@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const log = require("fancy-log");
+const snekfetch = require("snekfetch");
 const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 const LogError_1 = require("../Lib/LogError");
 const Properties_1 = require("../Lib/Properties");
@@ -41,22 +42,22 @@ class Check {
         });
     }
     async guildCheck(message, args) {
-        const gid = args.shift();
-        let guild;
+        const guildParam = args.shift();
         let guildConfiguration;
+        let guildConfig;
         try {
-            guild = await this.props.client.guilds.get(gid);
-            guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: gid } });
+            await this.getGuild(guildParam);
+            guildConfiguration = await GuildConfiguration_1.GuildConfiguration.findOne({ where: { guildID: this.guild.id } });
+            guildConfig = JSON.parse(guildConfiguration.settings);
         }
         catch (e) {
             const err = new LogError_1.LogError();
             err.Log(e);
             return message.reply(`Error, check logs`);
         }
-        const guildConfig = JSON.parse(guildConfiguration.settings);
         const embed = new discord_js_1.MessageEmbed();
         embed.color = discord_js_1.Util.resolveColor([0, 255, 255]);
-        embed.thumbnail = { url: guild.iconURL() };
+        embed.thumbnail = { url: this.guild.iconURL() };
         embed.title = "About Emoji bot";
         embed.author = {
             iconURL: "https://i.imgur.com/ibsHxIR.png",
@@ -67,14 +68,29 @@ class Check {
         };
         const cross = "❎";
         const check = "✅";
-        embed.addField("Owner", `${guild.owner.user.username}#${guild.owner.user.discriminator}`, true);
-        embed.addField("Emojis", guild.emojis.size, true);
-        embed.addField("Users", guild.memberCount, true);
-        embed.addField("Channels", guild.channels.size, true);
+        embed.addField("Owner", `${this.guild.owner.user.username}#${this.guild.owner.user.discriminator}`, true);
+        embed.addField("Emojis", this.guild.emojis.size, true);
+        embed.addField("Users", this.guild.memberCount, true);
+        embed.addField("Channels", this.guild.channels.size, true);
         embed.addField("Prefix", guildConfig.prefix, true);
-        embed.addField("Changelog Channel", `${guildConfig.changelog} ${guild.channels.find("name", guildConfig.changelog) ? check : cross}`, true);
-        embed.addField("List Channel", `${guildConfig.list} ${guild.channels.find("name", guildConfig.list) ? check : cross}`, true);
+        embed.addField("Changelog Channel", `${guildConfig.changelog} ${this.guild.channels.find("name", guildConfig.changelog) ? check : cross}`, true);
+        embed.addField("List Channel", `${guildConfig.list} ${this.guild.channels.find("name", guildConfig.list) ? check : cross}`, true);
         message.channel.send({ embed });
+    }
+    async getGuild(guildParam) {
+        const invite = discord_js_1.DataResolver.resolveInviteCode(guildParam);
+        try {
+            if (invite) {
+                const inviteData = await snekfetch.get(`https://discordapp.com/api/invite/${invite}`);
+                this.guild = await this.props.client.guilds.get(inviteData.body.guild.id);
+            }
+            else {
+                this.guild = await this.props.client.guilds.get(guildParam);
+            }
+        }
+        catch (e) {
+            throw Error(e);
+        }
     }
 }
 exports.Check = Check;

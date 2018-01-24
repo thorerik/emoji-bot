@@ -1,6 +1,7 @@
-import { Guild, Message, MessageEmbed, Permissions, Util } from "discord.js";
+import { DataResolver, Guild, Message, MessageEmbed, Permissions, Util } from "discord.js";
 
 import * as log from "fancy-log";
+import * as snekfetch from "snekfetch";
 
 import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { Command } from "../Lib/Command";
@@ -17,6 +18,8 @@ export class Check implements Command {
     public permissionRequired = "BOT_OWNER";
 
     private props = Properties.getInstance();
+
+    private guild: Guild;
 
     public async run(message: Message, args: string[]) {
         const subCommand = args.shift();
@@ -43,24 +46,24 @@ export class Check implements Command {
     }
 
     private async guildCheck(message: Message, args: string[]) {
-        const gid = args.shift();
-        let guild: Guild;
+        const guildParam = args.shift();
         let guildConfiguration: GuildConfiguration;
+        let guildConfig;
         try {
-                guild = await this.props.client.guilds.get(gid);
-                guildConfiguration = await GuildConfiguration.findOne({where: {guildID: gid}});
-            } catch (e) {
-                const err = new LogError();
-                err.Log(e);
-                return message.reply(`Error, check logs`);
-            }
-        const guildConfig = JSON.parse(guildConfiguration.settings);
+            await this.getGuild(guildParam);
+            guildConfiguration = await GuildConfiguration.findOne({where: {guildID: this.guild.id}});
+            guildConfig = JSON.parse(guildConfiguration.settings);
+        } catch (e) {
+            const err = new LogError();
+            err.Log(e);
+            return message.reply(`Error, check logs`);
+        }
 
         const embed = new MessageEmbed();
 
         embed.color = Util.resolveColor([0, 255, 255]);
 
-        embed.thumbnail = {url: guild.iconURL() };
+        embed.thumbnail = {url: this.guild.iconURL() };
 
         embed.title = "About Emoji bot";
 
@@ -76,22 +79,36 @@ export class Check implements Command {
         const cross = "❎";
         const check = "✅";
 
-        embed.addField("Owner", `${guild.owner.user.username}#${guild.owner.user.discriminator}`, true);
-        embed.addField("Emojis", guild.emojis.size, true);
-        embed.addField("Users", guild.memberCount, true);
-        embed.addField("Channels", guild.channels.size, true);
+        embed.addField("Owner", `${this.guild.owner.user.username}#${this.guild.owner.user.discriminator}`, true);
+        embed.addField("Emojis", this.guild.emojis.size, true);
+        embed.addField("Users", this.guild.memberCount, true);
+        embed.addField("Channels", this.guild.channels.size, true);
         embed.addField("Prefix", guildConfig.prefix, true);
         embed.addField("Changelog Channel", `${
                 guildConfig.changelog
             } ${
-                guild.channels.find("name", guildConfig.changelog) ? check : cross
+                this.guild.channels.find("name", guildConfig.changelog) ? check : cross
             }`, true);
         embed.addField("List Channel", `${
                 guildConfig.list
             } ${
-                guild.channels.find("name", guildConfig.list) ? check : cross
+                this.guild.channels.find("name", guildConfig.list) ? check : cross
             }`, true);
 
         message.channel.send({embed});
+    }
+
+    private async getGuild(guildParam: string) {
+        const invite = DataResolver.resolveInviteCode(guildParam);
+        try {
+            if (invite) {
+                const inviteData = await snekfetch.get(`https://discordapp.com/api/invite/${invite}`);
+                this.guild = await this.props.client.guilds.get(inviteData.body.guild.id);
+            } else {
+                this.guild = await this.props.client.guilds.get(guildParam);
+            }
+        } catch (e) {
+            throw Error (e);
+        }
     }
 }
