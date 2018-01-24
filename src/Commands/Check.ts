@@ -14,6 +14,7 @@ export class Check implements Command {
     public examples = [
         "check sanity",
         "check guild <id>",
+        "check guild <invite link>",
     ];
     public permissionRequired = "BOT_OWNER";
 

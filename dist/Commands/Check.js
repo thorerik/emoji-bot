@@ -13,6 +13,7 @@ class Check {
         this.examples = [
             "check sanity",
             "check guild <id>",
+            "check guild <invite link>",
         ];
         this.permissionRequired = "BOT_OWNER";
         this.props = Properties_1.Properties.getInstance();
