@@ -55,7 +55,7 @@ class Emoji {
                     }
                 });
             }
-            emoji = await this.guild.createEmoji(url, name);
+            emoji = await this.guild.emojis.create(url, name);
             this.message.reply(`Emoji created: ${emoji}`);
         }
         catch (e) {
@@ -102,7 +102,7 @@ class Emoji {
             parsed.emojis.forEach(async (element) => {
                 try {
                     if (this.guild.emojis.size < 50) {
-                        await this.guild.createEmoji(element.src, element.name);
+                        await this.guild.emojis.create(element.src, element.name);
                     }
                     else {
                         await this.message.channel.send(`Unable to add ${element.name}: ${element.src}, limit reached`);
