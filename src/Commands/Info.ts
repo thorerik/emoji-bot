@@ -33,7 +33,7 @@ export class Info implements Command {
         };
 
         embed.footer = {
-            text: "Created by Tuxy Fluffyclaws#5072",
+            text: "Created by Tuxy Fluffyclaws#1337",
         };
 
         embed.addField("Version", version);
