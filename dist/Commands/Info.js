@@ -28,7 +28,7 @@ class Info {
             text: "Created by Tuxy Fluffyclaws#5072",
         };
         embed.addField("Version", version);
-        embed.addField("Author", "Tuxy Fluffyclaws#5072", true);
+        embed.addField("Author", "Tuxy Fluffyclaws#0001", true);
         embed.addField("Support guild", "https://discord.gg/yk8z9bz", true);
         embed.addField("Guilds", this.props.client.guilds.size, true);
         embed.addField("Users", this.props.client.users.size, true);
