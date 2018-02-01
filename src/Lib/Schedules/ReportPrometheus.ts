@@ -10,6 +10,7 @@ export class ReportPrometheus {
             const data = `bot_messages ${props.messages}
             bot_guilds ${props.client.guilds.size}
             bot_channels ${props.client.channels.size}`;
+            props.messages = 0;
             snekfetch.put(`${props.config.config.pushGateway}/metrics/job/bots/instance/emojibot`, {
                 data,
             });

@@ -8,6 +8,7 @@ const log = require("fancy-log");
 const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 class Properties {
     constructor() {
+        this.messages = 0;
         if (Properties.instance) {
             throw new Error("Error: Instantiation failed: Use Properties.getInstance() instead of new.");
         }

@@ -21,7 +21,7 @@ export class Properties {
 
     public client: Client;
     public db: Sequelize;
-    public messages: number;
+    public messages: number = 0;
 
     public config: Config;
     private logWH: WebhookClient;
