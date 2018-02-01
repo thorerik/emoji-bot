@@ -48,6 +48,27 @@ class Properties {
             });
         });
     }
+    async setupSchedules() {
+        fs_1.readdir(path_1.join(".", "./dist/Lib/Schedules/"), (error, files) => {
+            if (error) {
+                log.error(error);
+                throw error;
+            }
+            if (this.schedules === undefined) {
+                this.schedules = new Array();
+            }
+            files.forEach((file) => {
+                delete require.cache[require.resolve(`${path_1.resolve(".")}/dist/Lib/Schedules/${file}`)];
+                const scheduleFile = require(`${path_1.resolve(".")}/dist/Lib/Schedules/${file}`);
+                const scheduleName = file.split(".")[0];
+                if (this.schedules[scheduleName] !== undefined) {
+                    this.schedules[scheduleName].cancel();
+                }
+                this.schedules[scheduleName] = scheduleFile[scheduleName].run();
+                log(`Registered Schedule ${scheduleName}`);
+            });
+        });
+    }
     async setupDatabase() {
         this.db = new sequelize_typescript_1.Sequelize({
             database: this.config.config.database.database,

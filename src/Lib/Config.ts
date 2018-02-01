@@ -21,6 +21,7 @@ export class Config {
         prefix: string,
         token: string,
         owners: string[],
+        pushGateway: string,
         webhooks: {
             logs: {
                 id: string,

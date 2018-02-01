@@ -20,12 +20,13 @@ export class Properties {
     private static instance: Properties = new Properties();
 
     public client: Client;
-
     public db: Sequelize;
+    public messages: number;
 
     public config: Config;
     private logWH: WebhookClient;
     private commands: Collection<string, Command>;
+    private schedules: any[];
 
     constructor() {
         if (Properties.instance) {
@@ -71,6 +72,33 @@ export class Properties {
                 log(`Registered command ${commandName}`);
 
                 this.setCommand(commandName.toLowerCase(), commandClass);
+            });
+        });
+    }
+
+    public async setupSchedules() {
+        readdir(join(".", "./dist/Lib/Schedules/"), (error, files) => {
+            if (error) {
+                log.error(error);
+                throw error;
+            }
+            if (this.schedules === undefined) {
+                this.schedules = new Array();
+            }
+
+            files.forEach((file) => {
+                delete require.cache[require.resolve(`${resolve(".")}/dist/Lib/Schedules/${file}`)];
+                const scheduleFile = require(`${resolve(".")}/dist/Lib/Schedules/${file}`);
+                const scheduleName = file.split(".")[0];
+
+                if (this.schedules[scheduleName] !== undefined) {
+                    this.schedules[scheduleName].cancel();
+                }
+
+                this.schedules[scheduleName] = scheduleFile[scheduleName].run();
+
+                log(`Registered Schedule ${scheduleName}`);
+
             });
         });
     }

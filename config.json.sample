@@ -3,9 +3,24 @@
 	"token":"",
 	"owners": ["107056552212447232"],
 	"webhooks": {
-			"logs": {
-				"id": "",
-				"token": ""
-			}
+		"logs": {
+			"id": "",
+			"token": ""
 		}
+	},
+	"pushGateway": "http://pushgateway:9091",
+	"database": {
+		"host": "localhost",
+		"port": 1433,
+		"database": "database_development",
+		"username": "sa",
+		"password": "",
+		"dialect": "mssql",
+		"pool": {
+			"max": 5,
+			"min": 0,
+			"acquire": 30000,
+			"idle": 10000
+		}
+	}
 }

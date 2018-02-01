@@ -22,5 +22,6 @@ export class Ready extends EventBase {
         );
         const props = Properties.getInstance();
         props.verifyDatabase();
+        props.setupSchedules();
     }
 }
