@@ -17,7 +17,7 @@ bot_channels ${props.client.channels.size}
                 await snekfetch.put(`${props.config.config.pushGateway}/metrics/jobs/bots/instances/emojibot`, {
                     data,
                 });
-            } catch(e) {
+            } catch (e) {
                 log.error(e);
             }
         });
