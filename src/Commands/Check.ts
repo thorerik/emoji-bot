@@ -7,6 +7,7 @@ import { GuildConfiguration } from "../Database/Models/GuildConfiguration";
 import { Command } from "../Lib/Command";
 import { LogError } from "../Lib/LogError";
 import { Properties } from "../Lib/Properties";
+import { isNumber } from "util";
 
 export class Check implements Command {
     // tslint:disable-next-line:max-line-length
@@ -100,9 +101,9 @@ export class Check implements Command {
     }
 
     private async getGuild(guildParam: string) {
-        const invite = DataResolver.resolveInviteCode(guildParam);
         try {
-            if (invite) {
+            if (!isNumber(guildParam)) {
+                const invite = DataResolver.resolveInviteCode(guildParam);
                 const inviteData = await snekfetch.get(`https://discordapp.com/api/invite/${invite}`);
                 this.guild = await this.props.client.guilds.get(inviteData.body.guild.id);
             } else {

@@ -6,6 +6,7 @@ const snekfetch = require("snekfetch");
 const GuildConfiguration_1 = require("../Database/Models/GuildConfiguration");
 const LogError_1 = require("../Lib/LogError");
 const Properties_1 = require("../Lib/Properties");
+const util_1 = require("util");
 class Check {
     constructor() {
         // tslint:disable-next-line:max-line-length
@@ -79,9 +80,9 @@ class Check {
         message.channel.send({ embed });
     }
     async getGuild(guildParam) {
-        const invite = discord_js_1.DataResolver.resolveInviteCode(guildParam);
         try {
-            if (invite) {
+            if (!util_1.isNumber(guildParam)) {
+                const invite = discord_js_1.DataResolver.resolveInviteCode(guildParam);
                 const inviteData = await snekfetch.get(`https://discordapp.com/api/invite/${invite}`);
                 this.guild = await this.props.client.guilds.get(inviteData.body.guild.id);
             }
